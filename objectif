@@ -1,0 +1,27 @@
+HTML
+    Avoir une image de fond en body
+    Créer une div centrée sur la page
+    Ajouter un titre avec le nom du jeu
+    Créer un tableau avec 9 cellules
+    Créer deux classes CSS “player1” et “player2” qui définissent l’aspect des cellules cliquées par le joueur 1 ou le joueur 2
+
+Javascript :
+    Trouver une façon de mémoriser et d’afficher quel joueur doit jouer (alternance player1/player2)
+    Lorsque l’on clique sur une cellule, celle-ci change de couleur (en utilisant les classes player1/player2)
+    Le joueur suivant ne peut pas cliquer sur la cellule du joueur précédent
+    A chaque clic sur une cellule, tester si un joueur a gagné (gérer toutes les combinaisons de victoire)
+    Afficher une div ‘Player1 gagné!’ ou ‘Player2 gagné!’ quand un joueur a gagné. Cette div disparaît quand on clique dessus.
+    Utiliser des console.logs pour :
+    Afficher le numéro de cellule + quel joueur a cliqué quand une cellule est active
+    Le nombre de tour
+
+
+Optionnel (mais obligatoire pour ceux qui sont en avance :D) ​:
+    Changer le “thème” de votre jeux selon le vainqueur.
+    Créer un tableau des scores
+    Créer un bouton d’abandon
+    Reset de chaque cellule à chaque fin de partie, de manière à pouvoir recommencer une partie
+    Animation (raisonnable) du panneau ‘Gagné’
+    Utiliser des console.logs pour :
+    Indiquer le score actuel a chaque début de partie -
+    Indiquer quand la partie est abandonnée par l'un des joueurs
