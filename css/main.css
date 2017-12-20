@@ -26,3 +26,11 @@
 .player2{
     background-image: url("../img/player2.png");
 }
+
+.player1win{
+    background-color : red;
+}
+
+.player2win{
+    background-color: blue;
+}

@@ -35,15 +35,52 @@ function getCol(col){
     return tmpBoard;
 }
 
+function getDiag(col, row){
+    var tmpBoard = [[],[]];
+    if(col == row){
+        for (var i = 0; i < board.length; i++) {
+            tmpBoard[0][i] = board[i][i];
+        }
+    }
+    if(col + row == board.length - 1){
+        for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[i].length; j++) {
+                if (i + j == board[i].length-1){
+                    tmpBoard[1][i] = board[i][j];
+                }
+            }
+        }
+    }
+    return tmpBoard;
+}
+
 function checkVictory(row, col, player){
-    console.log("Check victory");
+    var diag = getDiag(col, row);
 
     if(board[row].every(function(val){return val == player;})){
-        console.log("win");
-    }else if(getCol(col).every(function(val){return val == player;})){
-        console.log("win");
+        for (var i = 0; i < board.length; i++) {
+            var saut = row*board.length+i;
+            document.getElementsByTagName('td')[saut].classList.add("player"+player+"win");
+        }
     }
-
+    if(getCol(col).every(function(val){return val == player;})){
+        for (var i = 0; i < board.length; i++) {
+            var saut = col+board.length*i;
+            document.getElementsByTagName('td')[saut].classList.add("player"+player+"win");
+        }
+    }
+    if(diag[0].length != 0 && diag[0].every(function(val){return val == player})){
+        for (var i = 0; i < board.length; i++) {
+            var saut = (i+i)*(board.length-Math.floor(board.length/2));
+            document.getElementsByTagName('td')[saut].classList.add("player"+player+"win");
+        }
+    }
+    if(diag[1].length != 0 && diag[1].every(function(val){return val ==  player})){
+        for (var i = 0; i < board.length; i++) {
+            var saut = (i+1)*(board.length-1);
+            document.getElementsByTagName('td')[saut].classList.add("player"+player+"win");
+        }
+    }
 
     console.log(board[0][0]+"|"+board[0][1]+"|"+board[0][2]);
     console.log(board[1][0]+"|"+board[1][1]+"|"+board[1][2]);
