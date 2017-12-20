@@ -13,3 +13,16 @@
     height : 100px;
     border: 1px solid black;
 }
+
+.player1, .player2{
+    background-position: center;
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+}
+
+.player1{
+    background-image: url("../img/player1.png");
+}
+.player2{
+    background-image: url("../img/player2.png");
+}
