@@ -17,11 +17,11 @@ X    Le nombre de tour
 
 
 Optionnel (mais obligatoire pour ceux qui sont en avance :D) ​:
-    Changer le “thème” de votre jeux selon le vainqueur.
-    Créer un tableau des scores
-    Créer un bouton d’abandon
+X    Changer le “thème” de votre jeux selon le vainqueur.
+X    Créer un tableau des scores
+X    Créer un bouton d’abandon
 X    Reset de chaque cellule à chaque fin de partie, de manière à pouvoir recommencer une partie
 X    Animation (raisonnable) du panneau ‘Gagné’
-    Utiliser des console.logs pour :
-    Indiquer le score actuel a chaque début de partie -
-    Indiquer quand la partie est abandonnée par l'un des joueurs
+X    Utiliser des console.logs pour :
+X    Indiquer le score actuel a chaque début de partie -
+X    Indiquer quand la partie est abandonnée par l'un des joueurs

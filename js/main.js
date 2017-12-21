@@ -1,14 +1,28 @@
-var board = new Array(3)
-for (var i = 0; i < board.length; i++){
-    board[i] = new Array(3)
-}
-var player1 = true;
-var score = new Array();
+var board;
+var score;
+var player1;
 
+init();
 initGame();
 
+function init(){
+    var boardSize = 10;
+    board  = new Array(boardSize);
+    for (var i = 0; i < board.length; i++){
+        board[i] = new Array(boardSize);
+    }
+    score = new Array(3);
+
+    player1 = true;
+    for (var i = 0; i < score.length; i++) {
+        score[i] = 0;
+    }
+
+    drawGrid();
+}
+
 function initGame(){
-    var grid = document.getElementsByTagName('td');
+    var grid = document.getElementById("board").getElementsByTagName('td');
     for (var i = 0; i < grid.length; i++){
         (function () {
             var cell = i;
@@ -25,12 +39,43 @@ function initGame(){
     }
     var player = (player1)?1:2;
     document.getElementById('player').innerHTML = "Joueur "+player+" à toi de jouer.";
-    document.getElementById('surrender').onclick = function(){surrender(player);};
+    document.getElementById('surrender').onclick = function(e){
+        var surrenderMsg = document.createElement("p");
+        surrenderMsg.innerHTML = "Double click pour abandonner";
+        document.getElementById('surrender').appendChild(surrenderMsg);
+        setTimeout(function(){surrenderMsg.remove();},1000);
+    };
+    document.getElementById('surrender').ondblclick = function(){surrender();};
+
+    if(score.length > 0){
+        printScore();
+    }
+}
+
+function drawGrid(){
+    var grid = "";
+    for (var i = 0; i < board.length; i++) {
+        grid += "<tr>";
+        for (var j = 0; j < board[i].length; j++) {
+            grid += "<td></td>";
+        }
+        grid += "</tr>";
+    }
+    var table = document.getElementById("board");
+    table.style.height = table.offsetWidth+"px";
+    var tableTd = table.getElementsByTagName("td");
+    table.innerHTML = grid;
+    var size = 100/board.length;
+    console.log("size: "+size);
+    for (var i = 0; i < tableTd.length; i++) {
+        tableTd[i].style.width = ""+size+"%";
+        tableTd[i].style.height = ""+size+"%";
+    }
 }
 
 function play(cell){
-    var col = cell % 3;
-    var row = Math.floor(cell / 3);
+    var col = cell % board.length;
+    var row = Math.floor(cell / board.length);
     var player = (player1)?1:2;
     document.getElementsByTagName('td')[cell].onclick = function(){return false;};
     document.getElementsByTagName('td')[cell].classList.add("player"+player);
@@ -71,6 +116,7 @@ function getDiag(col, row){
             tmpBoard[0][i] = board[i][i];
         }
     }
+
     if(col + row == board.length - 1){
         for (var i = 0; i < board.length; i++) {
             for (var j = 0; j < board[i].length; j++) {
@@ -103,7 +149,7 @@ function checkVictory(row, col, player){
     }
     if(diag[0].length != 0 && diag[0].every(function(val){return val == player})){
         for (var i = 0; i < board.length; i++) {
-            var saut = (i+i)*(board.length-Math.floor(board.length/2));
+            var saut = i*(board.length+1);
             document.getElementsByTagName('td')[saut].classList.add("player"+player+"win");
         }
         win = true;
@@ -116,19 +162,39 @@ function checkVictory(row, col, player){
         win = true;
     }
 
-    if(win){
-        victory(player);
+    var draw = true;
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+            if(board[i][j] == 0){
+                draw = false;
+                break;
+            }
+        }
     }
 
-    console.log(board[0][0]+"|"+board[0][1]+"|"+board[0][2]);
-    console.log(board[1][0]+"|"+board[1][1]+"|"+board[1][2]);
-    console.log(board[2][0]+"|"+board[2][1]+"|"+board[2][2]);
+    if(win){
+        victory(player);
+    }else if(draw){
+        victory(0);
+    }
+
+    var boardLog = "";
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+            if(j != board.length-1){
+                boardLog += board[i][j]+"|";
+            }else{
+                boardLog += board[i][j]+"\n";
+            }
+        }
+    }
+    console.log(boardLog);
 
     return win;
 }
 
 function victory(winner){
-    score.push(winner);
+    score[winner]++;
 
     var grid = document.getElementsByTagName('td');
     for (var i = 0; i < grid.length; i++) {
@@ -144,12 +210,19 @@ function victory(winner){
     victoryBlock.style.lineHeight = "200px";
     victoryBlock.style.top = "50%";
     victoryBlock.style.left = "50%";
-    victoryBlock.innerHTML = "Joueur "+winner+" gagne !!!";
+
+    if(winner == 0){
+        victoryBlock.innerHTML = "Egalité";
+    }else{
+        victoryBlock.innerHTML = "Joueur "+winner+" gagne !!!";
+    }
 
     victoryBlock.onclick = function(e){
         document.getElementById('victory').removeAttribute('style');
+        document.getElementById('player').innerHTML = "";
 
         document.getElementById('replay').style.display = "block";
+        printScore();
         document.getElementById('replay').onclick = function(e){
             this.removeAttribute('style');
             replay();
@@ -164,5 +237,20 @@ function replay(){
 }
 
 function surrender(){
-    console.log("surrender");
+    var player = (player1)?1:2;
+    console.log("joueur "+player+" abandonne");
+    player = (!player1)?1:2;
+    victory(player);
+}
+
+function printScore(){
+    document.getElementById('score1').innerHTML = score[1];
+    document.getElementById('score2').innerHTML = score[2];
+    document.getElementById('score0').innerHTML = score[0];
+
+    console.log("--- Score ---");
+    console.log("Joueur 1 : "+score[1]);
+    console.log("Joueur 2 : "+score[2]);
+    console.log("Egalité  : "+score[0]);
+    console.log("-------------");
 }
