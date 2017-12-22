@@ -4,9 +4,10 @@ var player1;
 
 init();
 initGame();
+createFirework();
 
 function init(){
-    var boardSize = 10;
+    var boardSize = 3;
     board  = new Array(boardSize);
     for (var i = 0; i < board.length; i++){
         board[i] = new Array(boardSize);
@@ -66,7 +67,7 @@ function drawGrid(){
     var tableTd = table.getElementsByTagName("td");
     table.innerHTML = grid;
     var size = 100/board.length;
-    console.log("size: "+size);
+
     for (var i = 0; i < tableTd.length; i++) {
         tableTd[i].style.width = ""+size+"%";
         tableTd[i].style.height = ""+size+"%";
@@ -229,6 +230,41 @@ function victory(winner){
         };
     };
 
+}
+
+function createFirework(){
+    var body = document.getElementsByTagName('body')[0];
+    var f = new Array(20);
+    for (var i = 0; i < 40; i++){
+        f[i] = document.createElement("div");
+        body.appendChild(f[i]);
+        f[i].classList.add("fireworks");
+    }
+    setTimeout(function(){
+        var fireworks = document.getElementsByClassName('fireworks');
+        for (var i = 0; i < fireworks.length; i++) {
+            fireworks[i].style.top = "50%";
+        }
+    },1);
+    setTimeout(function(){
+        var fireworks = document.getElementsByClassName('fireworks');
+        var x = 0;
+        var y = 100;
+        for (var i = 0; i < fireworks.length; i++) {
+            fireworks[i].style.top = fireworks[i].offsetTop-y+"px"
+            fireworks[i].style.left = fireworks[i].offsetLeft+x+"px";
+            if(i < 10){
+                x+=10; y-=10;
+            }else if (i>=10 && i < 20) {
+                x-=10; y-=10;
+            }else if (i>=20 && i < 30) {
+                x-=10; y+=10;
+            }else if (i>=30 && i < 40) {
+                x+=10; y+=10;
+            }
+            fireworks[i].style.opacity = 0;
+        }
+    },1000);
 }
 
 function replay(){

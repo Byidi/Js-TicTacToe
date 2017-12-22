@@ -185,3 +185,16 @@ body{
 .player2win{
     background-color : rgba(0, 0, 255, .7);
 }
+
+.fireworks{
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    border-radius : 50%;
+    background-color: #FFFF00;
+    position: absolute;
+    top: 100%;
+    left: 150px;
+    z-index: 500;
+    transition: all 1s;
+}
