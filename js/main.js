@@ -4,7 +4,6 @@ var player1;
 
 init();
 initGame();
-createFirework();
 
 function init(){
     var boardSize = 3;
@@ -216,7 +215,19 @@ function victory(winner){
         victoryBlock.innerHTML = "Egalité";
     }else{
         victoryBlock.innerHTML = "Joueur "+winner+" gagne !!!";
+        if(winner == 1){
+            var colors = ["red", "crimson", "darkred", "firebrick"];
+        }else{
+            var colors = ["blue", "darkblue", "navy", "aqua"];
+        }
+        var cmp = 0;
+        var fwLoop = setInterval(function(){
+            createFirework(colors, screen.height/cmp , 0, screen.height/2, screen.width/2, 9, 100, 50);
+            cmp ++;
+            (cmp >= 3) ? clearInterval(fwLoop):"";
+        }, 1500);
     }
+
 
     victoryBlock.onclick = function(e){
         document.getElementById('victory').removeAttribute('style');
@@ -232,20 +243,55 @@ function victory(winner){
 
 }
 
-function createFirework(){
+function getRadians(degrees){
+  return degrees * Math.PI / 180;
+};
+
+function createFirework(colors, startTop, startLeft, explosionTop, explosionLeft, circle, radius, radiusInc){
+    var id = "fw_"+new Date().getTime();
     var body = document.getElementsByTagName('body')[0];
     var f = new Array(20);
-    for (var i = 0; i < 40; i++){
+    //Create fireworks
+    for (var i = 0; i < 36*circle; i++){
         f[i] = document.createElement("div");
         body.appendChild(f[i]);
         f[i].classList.add("fireworks");
+        f[i].classList.add(id);
+        var randColor = Math.floor((Math.random() * colors.length));
+        f[i].style.backgroundColor = colors[randColor];
+        f[i].style.top = startTop+"px";
+        f[i].style.left = startLeft+"px";
+        f[i].style.opacity = "1";
+        f[i].style.transition = "top 1s, left 1s, opacity 2s";
     }
+    //Launch fireworks
     setTimeout(function(){
-        var fireworks = document.getElementsByClassName('fireworks');
+        var fireworks = document.getElementsByClassName(id);
         for (var i = 0; i < fireworks.length; i++) {
-            fireworks[i].style.top = "50%";
+            fireworks[i].style.top = explosionTop+"px";
+            fireworks[i].style.left = explosionLeft+"px";
         }
     },1);
+    //Explode fireworks
+    setTimeout(function(){
+        var fireworks = document.getElementsByClassName(id);
+
+        var rayon = 100;
+        var angle = 0;
+        for (var i = 0; i < fireworks.length; i++) {
+            var x = radius * Math.cos(getRadians(angle));
+            var y = radius * Math.sin(getRadians(angle));
+            fireworks[i].style.top = fireworks[i].offsetTop+y+"px"
+            fireworks[i].style.left = fireworks[i].offsetLeft+x+"px";
+            fireworks[i].style.opacity = 0;
+            angle += 10;
+            if(angle >= 360){
+                radius += radiusInc;
+                angle = 0;
+            }
+        }
+    },1000);
+    /*
     setTimeout(function(){
         var fireworks = document.getElementsByClassName('fireworks');
         var x = 0;
@@ -264,7 +310,7 @@ function createFirework(){
             }
             fireworks[i].style.opacity = 0;
         }
-    },1000);
+    },1000);*/
 }
 
 function replay(){
