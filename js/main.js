@@ -2,6 +2,8 @@ var board;
 var score;
 var player1;
 
+var players = new Array(2);
+
 init();
 initGame();
 
@@ -18,7 +20,14 @@ function init(){
         score[i] = 0;
     }
 
+    document.getElementById("configBtn").onclick = function(){
+        config();
+    };
+
     drawGrid();
+
+    players[0] = {"name":"player1", "color":"red", "icon":"croix"};
+    players[1] = {"name":"player2", "color":"blue", "icon":"rond"};
 }
 
 function initGame(){
@@ -38,7 +47,7 @@ function initGame(){
         }
     }
     var player = (player1)?1:2;
-    document.getElementById('player').innerHTML = "Joueur "+player+" à toi de jouer.";
+    document.getElementById('player').innerHTML = players[player-1]["name"]+" à toi de jouer.";
     document.getElementById('surrender').onclick = function(e){
         var surrenderMsg = document.createElement("p");
         surrenderMsg.innerHTML = "Double click pour abandonner";
@@ -80,12 +89,12 @@ function play(cell){
     document.getElementsByTagName('td')[cell].onclick = function(){return false;};
     document.getElementsByTagName('td')[cell].classList.add("player"+player);
     board[row][col] = player;
-    console.log("Tour "+getTurn()+" : Player "+player+" a joué en "+cell);
+    console.log("Tour "+getTurn()+" : Player "+player+" ("+players[player-1]["name"]+") a joué en "+cell);
     var win = checkVictory(row, col, player);
     if(!win){
         player1 = !player1;
         player = (player1)?1:2;
-        document.getElementById('player').innerHTML = "Joueur "+player+" à toi de jouer.";
+        document.getElementById('player').innerHTML = players[player-1]["name"]+" à toi de jouer.";
     }
 }
 
@@ -214,18 +223,24 @@ function victory(winner){
     if(winner == 0){
         victoryBlock.innerHTML = "Egalité";
     }else{
-        victoryBlock.innerHTML = "Joueur "+winner+" gagne !!!";
-        if(winner == 1){
-            var colors = ["red", "crimson", "darkred", "firebrick"];
-        }else{
-            var colors = ["blue", "darkblue", "navy", "aqua"];
-        }
+        victoryBlock.innerHTML = players[winner-1]["name"]+" gagne !!!";
+
+        var colors = [players[winner-1]["color"], "white"];
         var cmp = 0;
         var fwLoop = setInterval(function(){
-            createFirework(colors, screen.height/cmp , 0, screen.height/2, screen.width/2, 9, 100, 50);
+            createFirework(
+                colors,                 //colors array
+                screen.height,          //startTop
+                screen.width/9*(cmp+1), //startLeft
+                screen.height/2,        //explosionTop
+                screen.width/6*(cmp+1), //explosionLeft
+                3,                      //circle
+                100,                    //radius
+                50                      //radiusInc
+            );
             cmp ++;
-            (cmp >= 3) ? clearInterval(fwLoop):"";
-        }, 1500);
+            (cmp >= 4) ? clearInterval(fwLoop):"";
+        }, 100);
     }
 
 
@@ -320,7 +335,7 @@ function replay(){
 
 function surrender(){
     var player = (player1)?1:2;
-    console.log("joueur "+player+" abandonne");
+    console.log("joueur "+player+"("+players[player-1]["name"]+") abandonne");
     player = (!player1)?1:2;
     victory(player);
 }
@@ -331,8 +346,98 @@ function printScore(){
     document.getElementById('score0').innerHTML = score[0];
 
     console.log("--- Score ---");
-    console.log("Joueur 1 : "+score[1]);
-    console.log("Joueur 2 : "+score[2]);
+    console.log(players[0]["name"]+" : "+score[1]);
+    console.log(players[1]["name"]+" : "+score[2]);
     console.log("Egalité  : "+score[0]);
     console.log("-------------");
+}
+
+function initConfig(){
+    var config = document.getElementById("config");
+    config.style.visibility = "visible";
+    document.getElementById('p1name').value = players[0]["name"];
+    document.getElementById('p2name').value = players[1]["name"];
+    document.getElementById('p1color').value = players[0]["color"];
+    document.getElementById('p2color').value = players[1]["color"];
+
+    var p1icon = document.getElementsByName("p1icon");
+    for (var i = 0; i < p1icon.length; i++) {
+        p1icon[i].checked = false;
+        if(p1icon[i].value == players[0]["icon"]){
+            p1icon[i].parentElement.style.borderColor = "red";
+            p1icon[i].checked = true;
+        }
+    }
+
+    var p2icon = document.getElementsByName("p2icon");
+    for (var i = 0; i < p2icon.length; i++) {
+        p2icon[i].checked = false;
+        if(p2icon[i].value == players[1]["icon"]){
+            p2icon[i].parentElement.style.borderColor = "red";
+            p2icon[i].checked = true;
+        }
+    }
+
+    document.getElementById("configCancel").onclick=function(){
+        config.style.visibility = "hidden";
+    };
+
+    document.getElementById("configSave").onclick = function(){
+        players[0]["name"] = document.getElementById('p1name').value;
+        players[1]["name"] = document.getElementById('p2name').value;
+
+        var p1color = document.getElementById("p1color");
+        var p2color = document.getElementById("p2color");
+        players[0]["color"] = p1color.options[p1color.selectedIndex].value;
+        players[1]["color"] = p2color.options[p2color.selectedIndex].value;
+
+        players[0]["icon"] = document.querySelector('input[name="p1icon"]:checked').value;
+        players[1]["icon"] = document.querySelector('input[name="p2icon"]:checked').value;
+
+        player = (player1)?1:2;
+        document.getElementById('player').innerHTML = players[player-1]["name"]+" à toi de jouer.";
+
+        var s = document.getElementsByTagName('style');
+        if(s.length > 0){s[0].remove();}
+        var head = document.getElementsByTagName('head')[0];
+        var style = document.createElement('style');
+        style.innerHTML  = ".player1 { background-image: url('./img/"+players[0]["icon"]+".png'); } ";
+        style.innerHTML  += ".player2 { background-image: url('./img/"+players[1]["icon"]+".png'); } ";
+        style.innerHTML  += ".player1win { background-color: "+players[0]["color"]+"; } ";
+        style.innerHTML  += ".player2win { background-color: "+players[1]["color"]+"; } ";
+        head.appendChild(style);
+
+        document.getElementById("scorep1name").innerHTML = players[0]["name"];
+        document.getElementById("scorep2name").innerHTML = players[1]["name"];
+
+        config.style.visibility = "hidden";
+    }
+}
+
+function config(){
+    initConfig();
+
+    var p1icon = document.getElementsByName("p1icon");
+    for (var i = 0; i < p1icon.length; i++) {
+        p1icon[i].onclick = function(e){
+            for (var j = 0; j < p1icon.length; j++) {
+                p1icon[j].parentElement.style.borderColor = "black";
+                p1icon[j].checked = false;
+            }
+            this.parentElement.style.borderColor = "red";
+            this.checked = true;
+        };
+    }
+
+    var p2icon = document.getElementsByName("p2icon");
+    for (var i = 0; i < p2icon.length; i++) {
+        p2icon[i].onclick = function(e){
+            for (var j = 0; j < p2icon.length; j++) {
+                p2icon[j].parentElement.style.borderColor = "black";
+                p2icon[j].checked = false;
+            }
+            this.parentElement.style.borderColor = "red";
+            this.checked = true;
+        };
+    }
 }

@@ -28,27 +28,27 @@ body{
     left : 0px;
 }
 
-#content #board{
+#board{
     border-collapse: collapse;
     width: 100%;
 }
 
-#content #board td{
+#board td{
     width : 100px;
     height : 100px;
     border-right: 5px solid black;
     border-bottom: 5px solid black;
 }
 
-#content #board td:last-child{
+#board td:last-child{
     border-right: none;
 }
 
-#content #board tr:last-child td{
+#board tr:last-child td{
     border-bottom: none;
 }
 
-#content #player{
+#player{
     width : 100%;
     position: absolute;
     font-size: 20px;
@@ -58,7 +58,7 @@ body{
     left: 0px;
 }
 
-#content #victory{
+#victory{
     background-color: rgba(0, 0, 0, .8);
     border : 5px groove white;
     border-radius: 15px;
@@ -80,7 +80,7 @@ body{
     transition: width .5s, height .5s, line-height .5s;
 }
 
-#content #replay{
+#replay{
     background-color: rgba(0, 0, 0, .8);
     cursor : pointer;
     border : 3px outset white;
@@ -99,31 +99,31 @@ body{
     transform: translateX(-50%);
 }
 
-#content #replay:hover{
+#replay:hover{
     text-decoration: underline;
 }
 
-#content #replay:active{
+#replay:active{
     border-style: inset;
 }
 
-#content #surrender{
+#surrender{
     position: absolute;
     bottom : 10px;
     right : 10px;
 }
 
-#content #surrender img{
+#surrender img{
     height : 75px;
     transition: transform .5s;
     cursor: pointer;
 }
 
-#content #surrender img:hover{
+#surrender img:hover{
     transform: rotate(5deg);
 }
 
-#content #surrender p{
+#surrender p{
     background-color : rgba(255, 255, 255, .8);
     border : 2px solid black;
     width : 250px;
@@ -136,7 +136,7 @@ body{
     z-index: 300;
 }
 
-#content #score{
+#score{
     background-color: rgba(255, 255, 255, .5);
     border-top : 2px solid black;
     width: 95%;
@@ -147,20 +147,20 @@ body{
     transform: translateY(100%);
 }
 
-#content #score table{
+#score table{
     width: 100%;
     border : none;
     font-weight: bold;
     border-collapse: collapse;
 }
 
-#content #score td{
+#score td{
     text-align: center;
     width: 50%;
     border : 1px solid black;
 }
 
-#content #score tr:first-child td{
+#score tr:first-child td{
     border: none;
 }
 
@@ -171,11 +171,11 @@ body{
 }
 
 .player1{
-    background-image: url("../img/player1.png");
+    background-image: url("../img/croix.png");
 }
 
 .player2{
-    background-image: url("../img/player2.png");
+    background-image: url("../img/rond.png");
 }
 
 .player1win{
@@ -194,4 +194,122 @@ body{
     background-color: red;
     position: absolute;
     z-index: 500;
+}
+
+#configBtn{
+    width : 32px;
+    height : 32px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top : 10px;
+    transition: all 2s;
+}
+
+#configBtn:hover{
+    transform: rotate(360deg);
+}
+
+#config{
+    background-color: rgba(0, 0, 0, .9);
+    border : 5px groove white;
+    border-radius: 15px;
+    text-align: center;
+    padding: 20px;
+    visibility: hidden;
+    font-size: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    color: white;
+    width: 500px;
+    height: 500px;
+    line-height: 0px;
+    position : absolute;
+    z-index: 1;
+    top : 50%;
+    left : 50%;
+    transform: translateY(-50%) translateX(-50%);
+    transition: width .5s, height .5s, line-height .5s;
+}
+
+#config ul{
+    margin-top : 50px;
+    list-style-type: none;
+}
+
+#config li{
+    margin-top : 20px;
+    margin-bottom : 10px;
+}
+
+#config input, #config select{
+    box-sizing: border-box;
+    width : 250px;
+}
+
+#config .icons{
+    margin-top: 20px;
+    display : flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#config .icon{
+    width : 45px;
+    height: 45px;
+    background-color: rgba(255,255,255,.5);
+    border: 2px solid black;
+    position: relative;
+}
+
+#config .icon img{
+    width: 90%;
+    height : 90%;
+    margin : 5%;
+    position : absolute;
+    top : 0px;
+    left : 0px;
+    z-index: 400;
+}
+
+#config .icon input{
+    width: 100%;
+    height : 100%;
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 500;
+    opacity: 0;
+}
+
+#config #configSave, #config #configCancel{
+    width : 100px;
+    height : 25px;
+    cursor: pointer;
+    background-color : grey;
+    color: black;
+    border : 2px outset grey;
+    font-size : 18px;
+    line-height: 18px;
+    padding-top : 5px;
+    position: absolute;
+    bottom : 40px;
+}
+
+#config #configSave{
+    left : 100px;
+}
+
+#config #configCancel{
+    right : 100px;
+}
+
+#config #configSave:hover, #config #configCancel:hover{
+    text-decoration: underline;
+}
+
+#config #configSave:active, #config #configCancel:active{
+    border: 2px inset grey;
 }

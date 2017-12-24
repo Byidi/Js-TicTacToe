@@ -8,8 +8,134 @@
     <body>
     <div id="content">
         <h1>Tic Tac Toe</h1>
+        <img id="configBtn" src="./img/config.png" />
+        <div id="config">
+            <h3>Configuration</h3>
+            <ul>
+                <li>Nom joueur 1 : <input type="text" name="p1name" id="p1name"></li>
+                <li>Nom joueur 2 : <input type="text" name="p2name" id="p2name"></li>
+                <li>
+                    Couleur joueur 1 :
+                    <select name="p1color" id="p1color">
+                        <option value="blue">Bleu</option>
+                        <option value="fuchsia">Fuchsia</option>
+                        <option value="yellow">Jaune</option>
+                        <option value="orange">Orange</option>
+                        <option value="pink">Rose</option>
+                        <option value="red">Rouge</option>
+                        <option value="green">Vert</option>
+                        <option value="darkviolet">Violet</option>
+                    </select>
+                </li>
+                <li>
+                    Couleur joueur 2 :
+                    <select name="p2color" id="p2color">
+                        <option value="blue">Bleu</option>
+                        <option value="fuchsia">Fuchsia</option>
+                        <option value="yellow">Jaune</option>
+                        <option value="orange">Orange</option>
+                        <option value="pink">Rose</option>
+                        <option value="red">Rouge</option>
+                        <option value="green">Vert</option>
+                        <option value="darkviolet">Violet</option>
+                    </select>
+                </li>
+                <li>
+                    Icone joueur 1 :
+                    <div class="icons">
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="croix"/>
+                            <img src="./img/croix.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="rond"/>
+                            <img src="./img/rond.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="gnu"/>
+                            <img src="./img/gnu.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="tux"/>
+                            <img src="./img/tux.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="mario"/>
+                            <img src="./img/mario.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="sonic"/>
+                            <img src="./img/sonic.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="python"/>
+                            <img src="./img/python.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="java"/>
+                            <img src="./img/java.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="html"/>
+                            <img src="./img/html.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p1icon" value="php"/>
+                            <img src="./img/php.png">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    Icone joueur 2 :
+                    <div class="icons">
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="croix"/>
+                            <img src="./img/croix.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="rond"/>
+                            <img src="./img/rond.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="gnu"/>
+                            <img src="./img/gnu.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="tux"/>
+                            <img src="./img/tux.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="mario"/>
+                            <img src="./img/mario.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="sonic"/>
+                            <img src="./img/sonic.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="python"/>
+                            <img src="./img/python.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="java"/>
+                            <img src="./img/java.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="html"/>
+                            <img src="./img/html.png">
+                        </div>
+                        <div class="icon">
+                            <input type="radio" name="p2icon" value="php"/>
+                            <img src="./img/php.png">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div id="configSave">Valider</div>
+            <div id="configCancel">Annuler</div>
+        </div>
         <table id="board">
-            
+
         </table>
         <div id="player"></div>
         <div id="victory"></div>
@@ -21,11 +147,11 @@
                     <td colspan="3">Score</td>
                 </tr>
                 <tr>
-                    <td>Player 1</td>
+                    <td id="scorep1name">Player 1</td>
                     <td id="score1">0</td>
                 </tr>
                 <tr>
-                    <td>Player 2</td>
+                    <td id="scorep2name">Player 2</td>
                     <td id="score2">0</td>
                 </tr>
                 <tr>
