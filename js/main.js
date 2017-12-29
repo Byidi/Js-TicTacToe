@@ -5,17 +5,11 @@ var player1;
 var players = new Array(2);
 
 init();
-initGame();
+initGame(3);
 
 function init(){
-    var boardSize = 3;
-    board  = new Array(boardSize);
-    for (var i = 0; i < board.length; i++){
-        board[i] = new Array(boardSize);
-    }
-    score = new Array(3);
-
     player1 = true;
+    score = new Array(3);
     for (var i = 0; i < score.length; i++) {
         score[i] = 0;
     }
@@ -24,13 +18,24 @@ function init(){
         config();
     };
 
-    drawGrid();
-
     players[0] = {"name":"player1", "color":"red", "icon":"croix"};
     players[1] = {"name":"player2", "color":"blue", "icon":"rond"};
 }
 
-function initGame(){
+function initGame(boardSize){
+    board  = new Array(boardSize);
+    for (var i = 0; i < boardSize; i++){
+        board[i] = new Array(boardSize);
+    }
+
+    for (var i = 0; i < boardSize; i++) {
+        for (var j = 0; j < boardSize; j++) {
+            board[i][j] = 0;
+        }
+    }
+
+    drawGrid();
+
     var grid = document.getElementById("board").getElementsByTagName('td');
     for (var i = 0; i < grid.length; i++){
         (function () {
@@ -41,11 +46,7 @@ function initGame(){
             };
         }());
     }
-    for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board[i].length; j++) {
-            board[i][j] = 0;
-        }
-    }
+
     var player = (player1)?1:2;
     document.getElementById('player').innerHTML = players[player-1]["name"]+" à toi de jouer.";
     document.getElementById('surrender').onclick = function(e){
@@ -330,7 +331,7 @@ function createFirework(colors, startTop, startLeft, explosionTop, explosionLeft
 
 function replay(){
     player1 = !player1;
-    initGame();
+    initGame(board.length);
 }
 
 function surrender(){
@@ -378,11 +379,42 @@ function initConfig(){
         }
     }
 
+    var boardSizeSelect = document.getElementById("boardsize");
+    boardSizeSelect.innerHTML = "";
+    for (var i = 3; i <= 20; i++) {
+        var option = document.createElement("option");
+        option.innerHTML = i;
+        boardSizeSelect.appendChild(option);
+    }
+
+    var boardIsEmpty = true;
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[i].length; j++) {
+                if(board[i][j] != 0){
+                    boardIsEmpty = false;
+                    break;
+                }
+        }
+    }
+
+    if(!boardIsEmpty){
+        boardSizeSelect.disabled = true;
+        boardSizeSelect.setAttribute("title","La grille doit être vide pour changer de taille");
+    }else{
+        boardSizeSelect.disabled = false;
+        boardSizeSelect.setAttribute("title","");
+    }
+
     document.getElementById("configCancel").onclick=function(){
         config.style.visibility = "hidden";
     };
 
     document.getElementById("configSave").onclick = function(){
+        var boardSize = document.getElementById("boardsize").value;
+        if(boardIsEmpty && boardSize != board.length){
+            initGame(boardSize);
+        }
+
         players[0]["name"] = document.getElementById('p1name').value;
         players[1]["name"] = document.getElementById('p2name').value;
 
